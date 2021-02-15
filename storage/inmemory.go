@@ -31,7 +31,11 @@ func (impl *InMemory) CreatePost(ctx context.Context, newPost model.NewPost) (mo
 	impl.mu.Lock()
 	defer impl.mu.Unlock()
 	posts := impl.storage[post.UserID]
-	posts = append(posts, post)
+
+	posts = append(posts, model.Post{})
+	copy(posts[1:], posts)
+	posts[0] = post
+
 	impl.storage[post.UserID] = posts
 	return post, nil
 }
