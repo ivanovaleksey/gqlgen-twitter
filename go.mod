@@ -1,4 +1,4 @@
-module github.com/ivanovaleksey/twitter
+module github.com/ivanovaleksey/gqlgen-twitter
 
 go 1.15
 

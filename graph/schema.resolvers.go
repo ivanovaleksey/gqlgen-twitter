@@ -7,9 +7,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/ivanovaleksey/twitter/graph/generated"
-	"github.com/ivanovaleksey/twitter/graph/model"
-	"github.com/ivanovaleksey/twitter/storage"
+	"github.com/ivanovaleksey/gqlgen-twitter/graph/generated"
+	"github.com/ivanovaleksey/gqlgen-twitter/graph/model"
+	"github.com/ivanovaleksey/gqlgen-twitter/storage"
 )
 
 func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) (*model.Post, error) {

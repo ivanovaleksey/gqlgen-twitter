@@ -9,8 +9,8 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/ivanovaleksey/twitter/graph"
-	"github.com/ivanovaleksey/twitter/graph/generated"
+	"github.com/ivanovaleksey/gqlgen-twitter/graph"
+	"github.com/ivanovaleksey/gqlgen-twitter/graph/generated"
 )
 
 const defaultPort = "8080"

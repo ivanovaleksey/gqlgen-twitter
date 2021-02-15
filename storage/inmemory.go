@@ -2,7 +2,7 @@ package storage
 
 import (
 	"context"
-	"github.com/ivanovaleksey/twitter/graph/model"
+	"github.com/ivanovaleksey/gqlgen-twitter/graph/model"
 	"math/rand"
 	"sync"
 	"time"

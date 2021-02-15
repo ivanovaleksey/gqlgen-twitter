@@ -2,9 +2,9 @@ package graph
 
 import (
 	"context"
-	"github.com/ivanovaleksey/twitter/graph/model"
-	"github.com/ivanovaleksey/twitter/pubsub"
-	"github.com/ivanovaleksey/twitter/storage"
+	"github.com/ivanovaleksey/gqlgen-twitter/graph/model"
+	"github.com/ivanovaleksey/gqlgen-twitter/pubsub"
+	"github.com/ivanovaleksey/gqlgen-twitter/storage"
 )
 
 // This file will not be regenerated automatically.

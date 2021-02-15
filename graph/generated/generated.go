@@ -13,7 +13,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	"github.com/ivanovaleksey/twitter/graph/model"
+	"github.com/ivanovaleksey/gqlgen-twitter/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -324,7 +324,7 @@ func (ec *executionContext) field_Mutation_createPost_args(ctx context.Context, 
 	var arg0 model.NewPost
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewPost2githubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐNewPost(ctx, tmp)
+		arg0, err = ec.unmarshalNNewPost2githubᚗcomᚋivanovalekseyᚋgqlgenᚑtwitterᚋgraphᚋmodelᚐNewPost(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -473,7 +473,7 @@ func (ec *executionContext) _Mutation_createPost(ctx context.Context, field grap
 	}
 	res := resTmp.(*model.Post)
 	fc.Result = res
-	return ec.marshalNPost2ᚖgithubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPost(ctx, field.Selections, res)
+	return ec.marshalNPost2ᚖgithubᚗcomᚋivanovalekseyᚋgqlgenᚑtwitterᚋgraphᚋmodelᚐPost(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Post_id(ctx context.Context, field graphql.CollectedField, obj *model.Post) (ret graphql.Marshaler) {
@@ -648,7 +648,7 @@ func (ec *executionContext) _PostsList_items(ctx context.Context, field graphql.
 	}
 	res := resTmp.([]*model.Post)
 	fc.Result = res
-	return ec.marshalNPost2ᚕᚖgithubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPostᚄ(ctx, field.Selections, res)
+	return ec.marshalNPost2ᚕᚖgithubᚗcomᚋivanovalekseyᚋgqlgenᚑtwitterᚋgraphᚋmodelᚐPostᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _PostsList_total(ctx context.Context, field graphql.CollectedField, obj *model.PostsList) (ret graphql.Marshaler) {
@@ -725,7 +725,7 @@ func (ec *executionContext) _Query_latestUserPosts(ctx context.Context, field gr
 	}
 	res := resTmp.(*model.PostsList)
 	fc.Result = res
-	return ec.marshalNPostsList2ᚖgithubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPostsList(ctx, field.Selections, res)
+	return ec.marshalNPostsList2ᚖgithubᚗcomᚋivanovalekseyᚋgqlgenᚑtwitterᚋgraphᚋmodelᚐPostsList(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -845,7 +845,7 @@ func (ec *executionContext) _Subscription_newPostEvent(ctx context.Context, fiel
 			w.Write([]byte{'{'})
 			graphql.MarshalString(field.Alias).MarshalGQL(w)
 			w.Write([]byte{':'})
-			ec.marshalNPost2ᚖgithubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPost(ctx, field.Selections, res).MarshalGQL(w)
+			ec.marshalNPost2ᚖgithubᚗcomᚋivanovalekseyᚋgqlgenᚑtwitterᚋgraphᚋmodelᚐPost(ctx, field.Selections, res).MarshalGQL(w)
 			w.Write([]byte{'}'})
 		})
 	}
@@ -2535,16 +2535,16 @@ func (ec *executionContext) marshalNInt2int64(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) unmarshalNNewPost2githubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐNewPost(ctx context.Context, v interface{}) (model.NewPost, error) {
+func (ec *executionContext) unmarshalNNewPost2githubᚗcomᚋivanovalekseyᚋgqlgenᚑtwitterᚋgraphᚋmodelᚐNewPost(ctx context.Context, v interface{}) (model.NewPost, error) {
 	res, err := ec.unmarshalInputNewPost(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNPost2githubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v model.Post) graphql.Marshaler {
+func (ec *executionContext) marshalNPost2githubᚗcomᚋivanovalekseyᚋgqlgenᚑtwitterᚋgraphᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v model.Post) graphql.Marshaler {
 	return ec._Post(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNPost2ᚕᚖgithubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPostᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Post) graphql.Marshaler {
+func (ec *executionContext) marshalNPost2ᚕᚖgithubᚗcomᚋivanovalekseyᚋgqlgenᚑtwitterᚋgraphᚋmodelᚐPostᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Post) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -2568,7 +2568,7 @@ func (ec *executionContext) marshalNPost2ᚕᚖgithubᚗcomᚋivanovalekseyᚋtw
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNPost2ᚖgithubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPost(ctx, sel, v[i])
+			ret[i] = ec.marshalNPost2ᚖgithubᚗcomᚋivanovalekseyᚋgqlgenᚑtwitterᚋgraphᚋmodelᚐPost(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -2581,7 +2581,7 @@ func (ec *executionContext) marshalNPost2ᚕᚖgithubᚗcomᚋivanovalekseyᚋtw
 	return ret
 }
 
-func (ec *executionContext) marshalNPost2ᚖgithubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v *model.Post) graphql.Marshaler {
+func (ec *executionContext) marshalNPost2ᚖgithubᚗcomᚋivanovalekseyᚋgqlgenᚑtwitterᚋgraphᚋmodelᚐPost(ctx context.Context, sel ast.SelectionSet, v *model.Post) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -2591,11 +2591,11 @@ func (ec *executionContext) marshalNPost2ᚖgithubᚗcomᚋivanovalekseyᚋtwitt
 	return ec._Post(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNPostsList2githubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPostsList(ctx context.Context, sel ast.SelectionSet, v model.PostsList) graphql.Marshaler {
+func (ec *executionContext) marshalNPostsList2githubᚗcomᚋivanovalekseyᚋgqlgenᚑtwitterᚋgraphᚋmodelᚐPostsList(ctx context.Context, sel ast.SelectionSet, v model.PostsList) graphql.Marshaler {
 	return ec._PostsList(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNPostsList2ᚖgithubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPostsList(ctx context.Context, sel ast.SelectionSet, v *model.PostsList) graphql.Marshaler {
+func (ec *executionContext) marshalNPostsList2ᚖgithubᚗcomᚋivanovalekseyᚋgqlgenᚑtwitterᚋgraphᚋmodelᚐPostsList(ctx context.Context, sel ast.SelectionSet, v *model.PostsList) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
