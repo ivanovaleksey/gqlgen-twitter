@@ -3,11 +3,10 @@ package storage
 import (
 	"github.com/ivanovaleksey/twitter/graph/model"
 	"math/rand"
-	"strconv"
 	"time"
 )
 
-type userID = string
+type userID = int64
 
 type InMemory struct {
 	storage map[userID][]model.Post
@@ -21,8 +20,8 @@ func NewInMemory() *InMemory {
 
 func (impl *InMemory) CreatePost(newPost model.NewPost) (model.Post, error) {
 	post := model.Post{
-		ID:              strconv.FormatInt(rand.Int63(), 10),
-		PublicationDate: int(time.Now().Unix()),
+		ID:              rand.Int63(),
+		PublicationDate: time.Now().Unix(),
 		ContentText:     newPost.Text,
 		UserID:          newPost.UserID,
 	}

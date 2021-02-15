@@ -6,6 +6,7 @@ package graph
 import (
 	"context"
 	"fmt"
+
 	"github.com/ivanovaleksey/twitter/graph/generated"
 	"github.com/ivanovaleksey/twitter/graph/model"
 )

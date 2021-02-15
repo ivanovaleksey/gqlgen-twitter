@@ -4,17 +4,17 @@ package model
 
 type NewPost struct {
 	Text   string `json:"text"`
-	UserID string `json:"userId"`
+	UserID int64  `json:"userId"`
 }
 
 type Post struct {
-	ID              string `json:"id"`
+	ID              int64  `json:"id"`
 	ContentText     string `json:"contentText"`
-	PublicationDate int    `json:"publicationDate"`
-	UserID          string `json:"userId"`
+	PublicationDate int64  `json:"publicationDate"`
+	UserID          int64  `json:"userId"`
 }
 
 type User struct {
-	ID   string `json:"id"`
+	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
