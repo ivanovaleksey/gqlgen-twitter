@@ -38,8 +38,8 @@ func (r *queryResolver) LatestUserPosts(ctx context.Context, userID int64, limit
 		return nil, err
 	}
 	itemsPtr := make([]*model.Post, 0, len(items))
-	for _, item := range items {
-		itemsPtr = append(itemsPtr, &item)
+	for i := range items {
+		itemsPtr = append(itemsPtr, &items[i])
 	}
 	return &model.PostsList{
 		Items: itemsPtr,
