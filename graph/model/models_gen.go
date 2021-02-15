@@ -14,6 +14,11 @@ type Post struct {
 	UserID          int64  `json:"userId"`
 }
 
+type PostsList struct {
+	Items []*Post `json:"items"`
+	Total int64   `json:"total"`
+}
+
 type User struct {
 	ID   int64  `json:"id"`
 	Name string `json:"name"`

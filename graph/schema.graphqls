@@ -14,8 +14,13 @@ type Post {
   userId: ID!
 }
 
+type PostsList {
+  items: [Post!]!
+  total: Int!
+}
+
 type Query {
-  posts: [Post!]!
+  latestUserPosts(userID: ID! limit: Int offset: Int): PostsList!
 }
 
 input NewPost {

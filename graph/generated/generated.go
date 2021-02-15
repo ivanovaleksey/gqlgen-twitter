@@ -54,8 +54,13 @@ type ComplexityRoot struct {
 		UserID          func(childComplexity int) int
 	}
 
+	PostsList struct {
+		Items func(childComplexity int) int
+		Total func(childComplexity int) int
+	}
+
 	Query struct {
-		Posts func(childComplexity int) int
+		LatestUserPosts func(childComplexity int, userID int64, limit *int64, offset *int64) int
 	}
 
 	User struct {
@@ -68,7 +73,7 @@ type MutationResolver interface {
 	CreatePost(ctx context.Context, input model.NewPost) (*model.Post, error)
 }
 type QueryResolver interface {
-	Posts(ctx context.Context) ([]*model.Post, error)
+	LatestUserPosts(ctx context.Context, userID int64, limit *int64, offset *int64) (*model.PostsList, error)
 }
 
 type executableSchema struct {
@@ -126,12 +131,31 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Post.UserID(childComplexity), true
 
-	case "Query.posts":
-		if e.complexity.Query.Posts == nil {
+	case "PostsList.items":
+		if e.complexity.PostsList.Items == nil {
 			break
 		}
 
-		return e.complexity.Query.Posts(childComplexity), true
+		return e.complexity.PostsList.Items(childComplexity), true
+
+	case "PostsList.total":
+		if e.complexity.PostsList.Total == nil {
+			break
+		}
+
+		return e.complexity.PostsList.Total(childComplexity), true
+
+	case "Query.latestUserPosts":
+		if e.complexity.Query.LatestUserPosts == nil {
+			break
+		}
+
+		args, err := ec.field_Query_latestUserPosts_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.LatestUserPosts(childComplexity, args["userID"].(int64), args["limit"].(*int64), args["offset"].(*int64)), true
 
 	case "User.id":
 		if e.complexity.User.ID == nil {
@@ -227,8 +251,13 @@ type Post {
   userId: ID!
 }
 
+type PostsList {
+  items: [Post!]!
+  total: Int!
+}
+
 type Query {
-  posts: [Post!]!
+  latestUserPosts(userID: ID! limit: Int offset: Int): PostsList!
 }
 
 input NewPost {
@@ -274,6 +303,39 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		}
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_latestUserPosts_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int64
+	if tmp, ok := rawArgs["userID"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userID"))
+		arg0, err = ec.unmarshalNID2int64(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["userID"] = arg0
+	var arg1 *int64
+	if tmp, ok := rawArgs["limit"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("limit"))
+		arg1, err = ec.unmarshalOInt2ᚖint64(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["limit"] = arg1
+	var arg2 *int64
+	if tmp, ok := rawArgs["offset"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+		arg2, err = ec.unmarshalOInt2ᚖint64(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["offset"] = arg2
 	return args, nil
 }
 
@@ -497,7 +559,77 @@ func (ec *executionContext) _Post_userId(ctx context.Context, field graphql.Coll
 	return ec.marshalNID2int64(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _PostsList_items(ctx context.Context, field graphql.CollectedField, obj *model.PostsList) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "PostsList",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Items, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Post)
+	fc.Result = res
+	return ec.marshalNPost2ᚕᚖgithubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPostᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _PostsList_total(ctx context.Context, field graphql.CollectedField, obj *model.PostsList) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "PostsList",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Total, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int64)
+	fc.Result = res
+	return ec.marshalNInt2int64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_latestUserPosts(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -513,9 +645,16 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_latestUserPosts_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Posts(rctx)
+		return ec.resolvers.Query().LatestUserPosts(rctx, args["userID"].(int64), args["limit"].(*int64), args["offset"].(*int64))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -527,9 +666,9 @@ func (ec *executionContext) _Query_posts(ctx context.Context, field graphql.Coll
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Post)
+	res := resTmp.(*model.PostsList)
 	fc.Result = res
-	return ec.marshalNPost2ᚕᚖgithubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPostᚄ(ctx, field.Selections, res)
+	return ec.marshalNPostsList2ᚖgithubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPostsList(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -1869,6 +2008,38 @@ func (ec *executionContext) _Post(ctx context.Context, sel ast.SelectionSet, obj
 	return out
 }
 
+var postsListImplementors = []string{"PostsList"}
+
+func (ec *executionContext) _PostsList(ctx context.Context, sel ast.SelectionSet, obj *model.PostsList) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, postsListImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("PostsList")
+		case "items":
+			out.Values[i] = ec._PostsList_items(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "total":
+			out.Values[i] = ec._PostsList_total(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var queryImplementors = []string{"Query"}
 
 func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -1884,7 +2055,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
-		case "posts":
+		case "latestUserPosts":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
 				defer func() {
@@ -1892,7 +2063,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_posts(ctx, field)
+				res = ec._Query_latestUserPosts(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -2291,6 +2462,20 @@ func (ec *executionContext) marshalNPost2ᚖgithubᚗcomᚋivanovalekseyᚋtwitt
 	return ec._Post(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalNPostsList2githubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPostsList(ctx context.Context, sel ast.SelectionSet, v model.PostsList) graphql.Marshaler {
+	return ec._PostsList(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNPostsList2ᚖgithubᚗcomᚋivanovalekseyᚋtwitterᚋgraphᚋmodelᚐPostsList(ctx context.Context, sel ast.SelectionSet, v *model.PostsList) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._PostsList(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {
 	res, err := graphql.UnmarshalString(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -2557,6 +2742,21 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 		return graphql.Null
 	}
 	return graphql.MarshalBoolean(*v)
+}
+
+func (ec *executionContext) unmarshalOInt2ᚖint64(ctx context.Context, v interface{}) (*int64, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalInt64(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOInt2ᚖint64(ctx context.Context, sel ast.SelectionSet, v *int64) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return graphql.MarshalInt64(*v)
 }
 
 func (ec *executionContext) unmarshalOString2string(ctx context.Context, v interface{}) (string, error) {

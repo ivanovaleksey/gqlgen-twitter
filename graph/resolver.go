@@ -1,6 +1,7 @@
 package graph
 
 import (
+	"context"
 	"github.com/ivanovaleksey/twitter/graph/model"
 	"github.com/ivanovaleksey/twitter/storage"
 )
@@ -18,5 +19,6 @@ func NewResolver() *Resolver {
 }
 
 type Storage interface {
-	CreatePost(model.NewPost) (model.Post, error)
+	CreatePost(ctx context.Context, newPost model.NewPost) (model.Post, error)
+	GetLatestPostsByUser(ctx context.Context, params storage.GetLatestPostsByUserParams) ([]model.Post, int, error)
 }
