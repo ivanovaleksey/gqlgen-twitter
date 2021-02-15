@@ -31,3 +31,7 @@ input NewPost {
 type Mutation {
   createPost(input: NewPost!): Post!
 }
+
+type Subscription {
+  newPostEvent(userId: ID!): Post!
+}

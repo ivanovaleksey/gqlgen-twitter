@@ -62,7 +62,7 @@ func (impl *InMemory) GetLatestPostsByUser(ctx context.Context, params GetLatest
 	total := len(posts)
 
 	if params.Offset > len(posts) {
-		return nil, 0, nil
+		return nil, total, nil
 	}
 	posts = posts[params.Offset:]
 
