@@ -6,16 +6,19 @@ package graph
 import (
 	"context"
 	"fmt"
-
 	"github.com/ivanovaleksey/twitter/graph/generated"
 	"github.com/ivanovaleksey/twitter/graph/model"
 )
 
-func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	panic(fmt.Errorf("not implemented"))
+func (r *mutationResolver) CreatePost(ctx context.Context, input model.NewPost) (*model.Post, error) {
+	post, err := r.storage.CreatePost(input)
+	if err != nil {
+		return nil, err
+	}
+	return &post, nil
 }
 
-func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
+func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
